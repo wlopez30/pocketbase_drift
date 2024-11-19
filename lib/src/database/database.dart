@@ -109,14 +109,22 @@ class DataBase extends _$DataBase {
       // ?~ Any/At least one of Like/Contains (if not specified auto wraps the right string OPERAND in a "%" for wildcard match)
       // ?!~ Any/At least one of NOT Like/Contains (if not specified auto wraps the right string OPERAND in a "%" for wildcard match)
       final parts = filter.replaceAll('(', '').replaceAll(')', '').multiSplit([' AND ', ' OR ']);
+      
+      final processedFields = <String>{}; // To keep track of processed fields.
       for (final part in parts) {
         final words = part.split(' ');
         final field = words[0].trim();
-        filter = filter!.replaceAll(
-          field,
-          fixField(field, alias: false),
-        );
+
+        // Check if the field has already been processed.
+        if (!processedFields.contains(field)) {
+          filter = filter!.replaceAll(
+            field,
+            fixField(field, alias: false),
+          );
+          processedFields.add(field); // Mark the field as processed.
+        }
       }
+      
       sb.write(' AND ($filter)');
     }
     if (sort != null && sort.isNotEmpty) {
