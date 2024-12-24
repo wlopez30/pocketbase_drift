@@ -72,12 +72,25 @@ class $RecordService extends RecordService with ServiceMixin<RecordModel> {
   @override
   Future<UnsubscribeFunc> subscribe(
     String topic,
-    RecordSubscriptionFunc callback,
-  ) {
-    return super.subscribe(topic, (e) {
-      onEvent(e);
-      callback(e);
-    });
+    RecordSubscriptionFunc callback, {
+    String? expand,
+    String? filter,
+    String? fields,
+    Map<String, dynamic> query = const {},
+    Map<String, String> headers = const {},
+  }) {
+    return super.subscribe(
+      topic,
+      (e) {
+        onEvent(e);
+        callback(e);
+      },
+      expand: expand,
+      filter: filter,
+      fields: fields,
+      query: query,
+      headers: headers,
+    );
   }
 
   Future<void> onEvent(RecordSubscriptionEvent e) async {
