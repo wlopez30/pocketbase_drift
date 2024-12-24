@@ -9,8 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.13.5
-  pocketbase: ^0.10.3
+  http: ^1.0.0
+  pocketbase: ^0.20.0
   drift: ^2.6.0
   sqlite3_flutter_libs: ^0.5.13
   path_provider: ^2.0.14
